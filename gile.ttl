@@ -1,0 +1,1826 @@
+@prefix : <http://www.semanticweb.org/FESMO> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix FESMO: <http://www.semanticweb.org/FESMO#> .
+@prefix terms: <http://purl.org/dc/terms/> .
+@prefix sequence: <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#> .
+@base <http://www.semanticweb.org/FESMO> .
+
+<http://www.semanticweb.org/FESMO> rdf:type owl:Ontology ;
+                                    dc:license <https://creativecommons.org/licenses/by-nc-sa/4.0/> ;
+                                    terms:creator "Giulia Maslov" ;
+                                    terms:modified "2024-09-12" ;
+                                    rdfs:comment "First Equipment Semiconductor Manufacturing Ontology is an ontology for the semiconductor manufacturing that is developed starting from the equipment concept in order to model the semiconductor manufacturing process and its related classes focusing on the front end part of the semiconductor manufacturing process" ;
+                                    rdfs:label "First Equipment Semiconductor Manufacturing Ontology" .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/contributor
+dc:contributor rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/creator
+dc:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/elements/1.1/license
+dc:license rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/creator
+terms:creator rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/modified
+terms:modified rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#directlyFollows
+sequence:directlyFollows rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf sequence:follows ;
+                         rdf:type owl:TransitiveProperty ;
+                         rdfs:domain owl:Thing ;
+                         rdfs:range owl:Thing ;
+                         rdfs:comment "The intransitive follows relation. For example, Wednesday directly precedes Thursday. Directness of precedence depends on the designer conceptualization." ;
+                         rdfs:isDefinedBy <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl> ;
+                         rdfs:label "directly follows"@en ,
+                                    "segue direttamente"@it .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#directlyPrecedes
+sequence:directlyPrecedes rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf sequence:precedes ;
+                          rdf:type owl:TransitiveProperty ;
+                          rdfs:domain owl:Thing ;
+                          rdfs:range owl:Thing ;
+                          rdfs:comment "The intransitive precedes relation. For example, Monday directly precedes Tuesday. Directness of precedence depends on the designer conceptualization." ;
+                          rdfs:isDefinedBy <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl> ;
+                          rdfs:label "directly precedes"@en ,
+                                     "precede direttamente"@it .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#follows
+sequence:follows rdf:type owl:ObjectProperty ;
+                 owl:inverseOf sequence:precedes ;
+                 rdf:type owl:TransitiveProperty ;
+                 rdfs:domain owl:Thing ;
+                 rdfs:range owl:Thing ;
+                 rdfs:comment """A relation between entities, expressing a 'sequence' schema. 
+E.g. 'year 2000 follows 1999', 'preparing coffee' follows 'deciding what coffee to use', 'II World War follows I World War', etc. 
+It can be used between tasks, processes or time intervals, and subproperties would fit best in order to distinguish the different uses.""" ;
+                 rdfs:isDefinedBy <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl> ;
+                 rdfs:label "follows"@en ,
+                            "segue"@it .
+
+
+###  http://www.ontologydesignpatterns.org/cp/owl/sequence.owl#precedes
+sequence:precedes rdf:type owl:ObjectProperty ,
+                           owl:TransitiveProperty ;
+                  rdfs:domain owl:Thing ;
+                  rdfs:range owl:Thing ;
+                  rdfs:comment """A relation between entities, expressing a 'sequence' schema. 
+E.g. 'year 1999 precedes 2000', 'deciding what coffee to use' precedes 'preparing coffee', 'World War II follows World War I', 'in the Milan to Rome autoroute, Bologna precedes Florence', etc.
+It can then be used between tasks, processes, time intervals, spatially locate objects, situations, etc. 
+Subproperties can be defined in order to distinguish the different uses.""" ;
+                  rdfs:isDefinedBy <http://www.ontologydesignpatterns.org/cp/owl/sequence.owl> ;
+                  rdfs:label "precede"@it ,
+                             "precedes"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Contains
+FESMO:Contains rdf:type owl:ObjectProperty ;
+               owl:inverseOf FESMO:isContainedIn ;
+               rdf:type owl:TransitiveProperty .
+
+
+###  http://www.semanticweb.org/FESMO#ContainsAtLeastOne
+FESMO:ContainsAtLeastOne rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf FESMO:Contains ;
+                         rdfs:domain FESMO:Module ;
+                         rdfs:range FESMO:MaterialLocation .
+
+
+###  http://www.semanticweb.org/FESMO#Holds
+FESMO:Holds rdf:type owl:ObjectProperty ;
+            owl:inverseOf FESMO:isHeldBy .
+
+
+###  http://www.semanticweb.org/FESMO#Increases
+FESMO:Increases rdf:type owl:ObjectProperty ;
+                owl:inverseOf FESMO:isIncreasedBy ;
+                rdf:type owl:TransitiveProperty ;
+                rdfs:range FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#Operates
+FESMO:Operates rdf:type owl:ObjectProperty ;
+               owl:inverseOf FESMO:isOperatedBy ;
+               rdfs:domain FESMO:ProcessWorkshop ;
+               rdfs:range FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#PerformedBy
+FESMO:PerformedBy rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  owl:inverseOf FESMO:Performs .
+
+
+###  http://www.semanticweb.org/FESMO#Performs
+FESMO:Performs rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#PerformsTask
+FESMO:PerformsTask rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#PerformsTaskOn
+FESMO:PerformsTaskOn rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty ;
+                     owl:inverseOf FESMO:hasPerformedTaskBy .
+
+
+###  http://www.semanticweb.org/FESMO#ProcessesWafer
+FESMO:ProcessesWafer rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty ;
+                     owl:inverseOf FESMO:isProcessedBy .
+
+
+###  http://www.semanticweb.org/FESMO#Reduces
+FESMO:Reduces rdf:type owl:ObjectProperty ;
+              owl:inverseOf FESMO:isReducedBy ;
+              rdfs:range FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#ResetsRiskUpToFirstOperation
+FESMO:ResetsRiskUpToFirstOperation rdf:type owl:ObjectProperty ;
+                                   rdfs:domain FESMO:Measurement ;
+                                   rdfs:range FESMO:Operation .
+
+
+###  http://www.semanticweb.org/FESMO#SensitiveToRisk
+FESMO:SensitiveToRisk rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf owl:topObjectProperty ;
+                      owl:inverseOf FESMO:isRiskTo ;
+                      rdfs:domain FESMO:Equipment ;
+                      rdfs:range FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#SupportedBy
+FESMO:SupportedBy rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:domain FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#Supports
+FESMO:Supports rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty ;
+               rdfs:range FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#TakesPlaceIn
+FESMO:TakesPlaceIn rdf:type owl:ObjectProperty ;
+                   rdfs:domain [ rdf:type owl:Class ;
+                                 owl:unionOf ( FESMO:Instruction
+                                               FESMO:Process
+                                             )
+                               ] ;
+                   rdfs:range FESMO:Fab .
+
+
+###  http://www.semanticweb.org/FESMO#UsedToClassify
+FESMO:UsedToClassify rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf FESMO:usedTo .
+
+
+###  http://www.semanticweb.org/FESMO#UsedToManage
+FESMO:UsedToManage rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf FESMO:usedTo .
+
+
+###  http://www.semanticweb.org/FESMO#consistsOfSequenceOf
+FESMO:consistsOfSequenceOf rdf:type owl:ObjectProperty ;
+                           rdfs:domain FESMO:Route ;
+                           rdfs:range FESMO:Operation .
+
+
+###  http://www.semanticweb.org/FESMO#definesEquipment
+FESMO:definesEquipment rdf:type owl:ObjectProperty ;
+                       owl:inverseOf FESMO:isDefinedByRecipe .
+
+
+###  http://www.semanticweb.org/FESMO#hasAssociatedProcess
+FESMO:hasAssociatedProcess rdf:type owl:ObjectProperty ;
+                           rdfs:range FESMO:FrontEndProcess .
+
+
+###  http://www.semanticweb.org/FESMO#hasFunction
+FESMO:hasFunction rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  rdfs:domain owl:Thing ;
+                  rdfs:range FESMO:Function .
+
+
+###  http://www.semanticweb.org/FESMO#hasGeographicalLocation
+FESMO:hasGeographicalLocation rdf:type owl:ObjectProperty ;
+                              owl:inverseOf FESMO:isGeographicalLocationOf ;
+                              rdfs:domain owl:Thing ;
+                              rdfs:range FESMO:GeographicalLocation .
+
+
+###  http://www.semanticweb.org/FESMO#hasPerformedTaskBy
+FESMO:hasPerformedTaskBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#involvedInProcess
+FESMO:involvedInProcess rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf FESMO:isInvolvedIn ;
+                        rdfs:domain FESMO:Equipment ;
+                        rdfs:range FESMO:FrontEndProcess .
+
+
+###  http://www.semanticweb.org/FESMO#involvedinOperation
+FESMO:involvedinOperation rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf FESMO:isInvolvedIn ;
+                          rdfs:domain FESMO:Equipment ;
+                          rdfs:range FESMO:Operation .
+
+
+###  http://www.semanticweb.org/FESMO#involves
+FESMO:involves rdf:type owl:ObjectProperty ;
+               owl:inverseOf FESMO:isInvolvedIn .
+
+
+###  http://www.semanticweb.org/FESMO#isAttachedTo
+FESMO:isAttachedTo rdf:type owl:ObjectProperty ;
+                   rdfs:domain FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#isChildEquipmentOf
+FESMO:isChildEquipmentOf rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf owl:topObjectProperty ;
+                         owl:inverseOf FESMO:isParentEquipmentOf ;
+                         rdfs:domain FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#isComponentOf
+FESMO:isComponentOf rdf:type owl:ObjectProperty ,
+                             owl:TransitiveProperty .
+
+
+###  http://www.semanticweb.org/FESMO#isContainedIn
+FESMO:isContainedIn rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#isCurrentStepOfOperation
+FESMO:isCurrentStepOfOperation rdf:type owl:ObjectProperty ;
+                               rdfs:domain FESMO:Step .
+
+
+###  http://www.semanticweb.org/FESMO#isDefinedByRecipe
+FESMO:isDefinedByRecipe rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#isGeographicalLocationOf
+FESMO:isGeographicalLocationOf rdf:type owl:ObjectProperty ;
+                               rdfs:subPropertyOf FESMO:isLocationOf .
+
+
+###  http://www.semanticweb.org/FESMO#isHeldBy
+FESMO:isHeldBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#isIncreasedBy
+FESMO:isIncreasedBy rdf:type owl:ObjectProperty ;
+                    rdfs:domain FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#isInvolvedIn
+FESMO:isInvolvedIn rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf owl:topObjectProperty ;
+                   rdfs:domain owl:Thing .
+
+
+###  http://www.semanticweb.org/FESMO#isLocatedIn
+FESMO:isLocatedIn rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf owl:topObjectProperty ;
+                  owl:inverseOf FESMO:isLocationOf ;
+                  rdf:type owl:TransitiveProperty ;
+                  rdfs:domain owl:Thing ;
+                  rdfs:range FESMO:Location .
+
+
+###  http://www.semanticweb.org/FESMO#isLocationOf
+FESMO:isLocationOf rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#isMadeOf
+FESMO:isMadeOf rdf:type owl:ObjectProperty ;
+               rdfs:domain owl:Thing .
+
+
+###  http://www.semanticweb.org/FESMO#isMadeOfOperation
+FESMO:isMadeOfOperation rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf FESMO:isMadeOf ;
+                        owl:inverseOf FESMO:isPartOfRoute .
+
+
+###  http://www.semanticweb.org/FESMO#isMadeOfOrdered
+FESMO:isMadeOfOrdered rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf FESMO:isMadeOf ;
+                      rdfs:domain FESMO:Operation ;
+                      rdfs:range FESMO:Step .
+
+
+###  http://www.semanticweb.org/FESMO#isMajorComponentOf
+FESMO:isMajorComponentOf rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf FESMO:isComponentOf .
+
+
+###  http://www.semanticweb.org/FESMO#isManufacturedUsing
+FESMO:isManufacturedUsing rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf owl:topObjectProperty ;
+                          owl:inverseOf FESMO:setsOperationsToManufacture ;
+                          rdfs:domain FESMO:Product ;
+                          rdfs:range FESMO:Route .
+
+
+###  http://www.semanticweb.org/FESMO#isMinorComponentOf
+FESMO:isMinorComponentOf rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf FESMO:isComponentOf .
+
+
+###  http://www.semanticweb.org/FESMO#isOperatedBy
+FESMO:isOperatedBy rdf:type owl:ObjectProperty ;
+                   rdfs:domain FESMO:Equipment ;
+                   rdfs:range FESMO:ProcessWorkshop .
+
+
+###  http://www.semanticweb.org/FESMO#isParentEquipmentOf
+FESMO:isParentEquipmentOf rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf owl:topObjectProperty ;
+                          rdf:type owl:TransitiveProperty ;
+                          rdfs:domain FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#isPartOf
+FESMO:isPartOf rdf:type owl:ObjectProperty ;
+               rdfs:domain owl:Thing .
+
+
+###  http://www.semanticweb.org/FESMO#isPartOfOperation
+FESMO:isPartOfOperation rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf FESMO:isPartOf ;
+                        rdfs:domain FESMO:OperationStep ;
+                        rdfs:range FESMO:Operation .
+
+
+###  http://www.semanticweb.org/FESMO#isPartOfRoute
+FESMO:isPartOfRoute rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf FESMO:isPartOf ;
+                    rdfs:domain FESMO:Operation ;
+                    rdfs:range FESMO:Route .
+
+
+###  http://www.semanticweb.org/FESMO#isPartOfWorkarea
+FESMO:isPartOfWorkarea rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf FESMO:isPartOf .
+
+
+###  http://www.semanticweb.org/FESMO#isProcessedBy
+FESMO:isProcessedBy rdf:type owl:ObjectProperty ;
+                    rdfs:range FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#isReducedBy
+FESMO:isReducedBy rdf:type owl:ObjectProperty ;
+                  rdfs:domain FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#isRequiredFor
+FESMO:isRequiredFor rdf:type owl:ObjectProperty ;
+                    owl:inverseOf FESMO:requires .
+
+
+###  http://www.semanticweb.org/FESMO#isRiskTo
+FESMO:isRiskTo rdf:type owl:ObjectProperty ;
+               rdfs:domain FESMO:Risk ;
+               rdfs:range FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#performsMaintenanceOn
+FESMO:performsMaintenanceOn rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf owl:topObjectProperty ;
+                            owl:inverseOf FESMO:subjecToMaintenanceBy ;
+                            rdfs:range FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#reliedToProcess
+FESMO:reliedToProcess rdf:type owl:ObjectProperty ;
+                      rdfs:domain FESMO:Operation ;
+                      rdfs:range FESMO:FrontEndProcess .
+
+
+###  http://www.semanticweb.org/FESMO#requires
+FESMO:requires rdf:type owl:ObjectProperty ;
+               rdfs:domain FESMO:Operation ;
+               rdfs:range FESMO:Recipe .
+
+
+###  http://www.semanticweb.org/FESMO#setsOperationsToManufacture
+FESMO:setsOperationsToManufacture rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#subjecToMaintenanceBy
+FESMO:subjecToMaintenanceBy rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/FESMO#usedTo
+FESMO:usedTo rdf:type owl:ObjectProperty ;
+             rdfs:domain owl:Thing .
+
+
+###  http://www.semanticweb.org/FESMO#usedToControl
+FESMO:usedToControl rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf FESMO:usedTo .
+
+
+###  http://www.semanticweb.org/FESMO#usedToDescribe
+FESMO:usedToDescribe rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf FESMO:usedTo ;
+                     rdfs:domain FESMO:Recipe ;
+                     rdfs:range FESMO:ProcessStep .
+
+
+###  http://www.semanticweb.org/FESMO#usedToManufacture
+FESMO:usedToManufacture rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf FESMO:usedTo .
+
+
+###  http://www.semanticweb.org/FESMO#usedToProcess
+FESMO:usedToProcess rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf FESMO:usedTo .
+
+
+###  http://www.semanticweb.org/FESMO#usedToSort
+FESMO:usedToSort rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf FESMO:usedTo .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/FESMO#hasDescription
+FESMO:hasDescription rdf:type owl:DatatypeProperty ;
+                     rdfs:domain owl:Thing .
+
+
+###  http://www.semanticweb.org/FESMO#hasID
+FESMO:hasID rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#hasLocation
+FESMO:hasLocation rdf:type owl:DatatypeProperty ;
+                  rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/FESMO#hasMaxValue
+FESMO:hasMaxValue rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf FESMO:hasValue ;
+                  rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/FESMO#hasMinValue
+FESMO:hasMinValue rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf FESMO:hasValue ;
+                  rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/FESMO#hasName
+FESMO:hasName rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:domain FESMO:Equipment ;
+              rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/FESMO#hasPriority
+FESMO:hasPriority rdf:type owl:DatatypeProperty ;
+                  rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/FESMO#hasStatus
+FESMO:hasStatus rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                rdfs:domain FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#hasValue
+FESMO:hasValue rdf:type owl:DatatypeProperty ;
+               rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/FESMO#hasVersion
+FESMO:hasVersion rdf:type owl:DatatypeProperty ;
+                 rdfs:range xsd:integer .
+
+
+###  http://www.semanticweb.org/FESMO#isType
+FESMO:isType rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf owl:topDataProperty ;
+             rdfs:domain FESMO:Equipment ;
+             rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/FESMO#Annealing
+FESMO:Annealing rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:TransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#AutomationRecipe
+FESMO:AutomationRecipe rdf:type owl:Class ;
+                       rdfs:subClassOf FESMO:Recipe .
+
+
+###  http://www.semanticweb.org/FESMO#BackEndChip
+FESMO:BackEndChip rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:Product .
+
+
+###  http://www.semanticweb.org/FESMO#BackEndFab
+FESMO:BackEndFab rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:Fab .
+
+
+###  http://www.semanticweb.org/FESMO#BackEndLot
+FESMO:BackEndLot rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:Product .
+
+
+###  http://www.semanticweb.org/FESMO#BackEndProcess
+FESMO:BackEndProcess rdf:type owl:Class ;
+                     rdfs:subClassOf FESMO:Process ;
+                     owl:disjointWith FESMO:FrontEndProcess ;
+                     rdfs:comment ""@en .
+
+
+###  http://www.semanticweb.org/FESMO#Boat
+FESMO:Boat rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:Carrier ;
+           rdfs:comment "a boat is a specialized type of carrier used for holding and transporting wafers during various processing steps. It is typically made of quartz or other high-temperature materials that can withstand the high temperatures required for certain processing steps, such as diffusion or oxidation."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Box
+FESMO:Box rdf:type owl:Class ;
+          rdfs:subClassOf FESMO:Container ;
+          rdfs:comment "a protective portable container for a cassette and/or substrate(s)."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Building
+FESMO:Building rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:PhysicalLocation ;
+               rdfs:comment "This class refers to a structure  containing different kind of entities and that extends in the 3D space either vertically or horizontally."@en .
+
+
+###  http://www.semanticweb.org/FESMO#BuildingSpace
+FESMO:BuildingSpace rdf:type owl:Class ;
+                    rdfs:subClassOf FESMO:Building ;
+                    rdfs:comment "An entity used to define the physical spaces of the building. A building space contains devices or building objects."@en .
+
+
+###  http://www.semanticweb.org/FESMO#BusinessArea
+FESMO:BusinessArea rdf:type owl:Class ;
+                   rdfs:subClassOf FESMO:BuildingSpace ;
+                   rdfs:comment "A subclass of BuildingSpace used to define the physical spaces of the building divided according to the business view"@en .
+
+
+###  http://www.semanticweb.org/FESMO#CMP
+FESMO:CMP rdf:type owl:Class ;
+          rdfs:subClassOf FESMO:TransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#Carrier
+FESMO:Carrier rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Durable ;
+              rdfs:comment "a carrier is any type of container, such as a cassette, box, pod, or boat, that is used to transport and store substrates or materials in the semiconductor manufacturing process. It may have one or more fixed positions or slots for holding the substrates, and can be made of various materials such as plastic or metal."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Cassette
+FESMO:Cassette rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:Carrier ;
+               rdfs:comment "A cassette is an open structure or container that holds one or more substrates (such as wafers or masks) for transport or processing between equipment, with one or more substrate locations (slots) for storing the substrates. It can be made of plastic or metal and can be used to carry electronics materials or parts for grouping operations or replaceability."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Chamber
+FESMO:Chamber rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Equipment ;
+              rdfs:comment "Specialized enclosure used to process and manufacture semiconductor wafers."@en .
+
+
+###  http://www.semanticweb.org/FESMO#ChemicalVaporDeposition
+FESMO:ChemicalVaporDeposition rdf:type owl:Class ;
+                              rdfs:subClassOf FESMO:TransformativeProcess ;
+                              rdfs:comment "CVD is a process used to deposit thin films of material onto the surface of the wafer using a chemical reaction."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Chuck
+FESMO:Chuck rdf:type owl:Class ;
+            rdfs:subClassOf FESMO:Equipment ;
+            rdfs:comment "Specialized platform designed for holding wafer or masks in the semiconductor manufacturing process"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Cleaning
+FESMO:Cleaning rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:ProcessFunction .
+
+
+###  http://www.semanticweb.org/FESMO#Consumable
+FESMO:Consumable rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:Material ;
+                 rdfs:comment """the material used by or in support of the equipment system at any time. Examples
+include gases (e.g., Ar, air), liquids (e.g., acids, solvents, ultrapure water, cooling water,
+mold compounds), solids (e.g., implant sources, bonding wire, lead frames). Examples
+do not include equipment component parts (e.g., consumable parts), support tools (e.g.,
+carriers, probe cards), production substrates (e.g., wafers, die, assembly components),
+monitor/filler units (e.g., test wafers), and facility utilities (e.g., electricity, exhaust)."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#Container
+FESMO:Container rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:Durable ;
+                rdfs:comment """durable that is used to hold other material, including other containers, for transport,
+storage, or shipping. Types of containers include carriers and boxes."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#Control
+FESMO:Control rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Function ;
+              rdfs:comment """Control function refers to the ability of the equipment to be precisely controlled and
+monitored during the manufacturing process."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#Defectivity
+FESMO:Defectivity rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:NonTransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#Dielectric
+FESMO:Dielectric rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:TransformativeProcess ;
+                 rdfs:comment "Is the process in which takes place the depositing electrically insulating or dielectric layers. These dielectric materials produced by the DIEL are used for electrically isolating the various Active Areas in the Front-End of Line (FEOL), as well as for insulating different metal layers within the interconnections of the Middle-End of Line (MEOL) and Back-End of Line (BEOL)."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Diffusion
+FESMO:Diffusion rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:TransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#DryEtch
+FESMO:DryEtch rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Etching .
+
+
+###  http://www.semanticweb.org/FESMO#DummyWafer
+FESMO:DummyWafer rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:FrontEndWafer .
+
+
+###  http://www.semanticweb.org/FESMO#Durable
+FESMO:Durable rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Material ;
+              rdfs:comment """a type of material used to facilitate manufacturing but not normally consumed in the
+process that is removable, reusable, and trackable. Examples include containers, reticles,
+and pellicles."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#ElectricalWaferSorting
+FESMO:ElectricalWaferSorting rdf:type owl:Class ;
+                             rdfs:subClassOf FESMO:NonTransformativeProcess ;
+                             rdfs:comment "Electrical Wafer Sorting, also known as Wafer Test or E-Test, is a process where integrated circuits on a semiconductor wafer are tested for electrical functionality before they are cut into individual dies. This step ensures that defective chips are identified and discarded before further investment in packaging and assembly. EWS typically involves probing the wafer with a fine needle to make contact with the chip pads and testing them using specific electrical signals."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Equipment
+FESMO:Equipment rdf:type owl:Class ;
+                rdfs:comment "Mechanical factor in the factory which plays a role in the manufacturing process."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Etching
+FESMO:Etching rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:TransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#FISM
+FESMO:FISM rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:Pod ;
+           rdfs:comment "Front-opening Interface Mechanical Standard similar to SMIF is a mechanical interface standard used for the handling and transfer of wafer carriers in a clean environment to reduce contamination"@en .
+
+
+###  http://www.semanticweb.org/FESMO#FOSB
+FESMO:FOSB rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:Box ;
+           rdfs:comment """a shipping box (that complies with SEMI M31) with a front-opening interface.
+Front Opening Shipping Box"""@en .
+
+
+###  http://www.semanticweb.org/FESMO#FOUP
+FESMO:FOUP rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:Pod ;
+           rdfs:comment "Front Opening Unified  Pod"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Fab
+FESMO:Fab rdf:type owl:Class ;
+          rdfs:subClassOf FESMO:Organization ;
+          rdfs:comment "Strategically structured facility that coordinates multiple departments, including production, maintenance, and process management, to achieve efficient semiconductor manufacturing. It functions as the core operational center where all processes and resources are aligned to meet production goals and quality standards."@en ;
+          rdfs:label "Fab" .
+
+
+###  http://www.semanticweb.org/FESMO#FilmDeposition
+FESMO:FilmDeposition rdf:type owl:Class ;
+                     rdfs:subClassOf FESMO:ProcessFunction .
+
+
+###  http://www.semanticweb.org/FESMO#Floor
+FESMO:Floor rdf:type owl:Class ;
+            rdfs:subClassOf FESMO:BuildingSpace ;
+            rdfs:comment "A floor is a upwards tilted horzontal surface,, could be divided to interior, exposed (outside) or raised floor."@en .
+
+
+###  http://www.semanticweb.org/FESMO#FrontEndFab
+FESMO:FrontEndFab rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:Fab .
+
+
+###  http://www.semanticweb.org/FESMO#FrontEndLot
+FESMO:FrontEndLot rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:Product .
+
+
+###  http://www.semanticweb.org/FESMO#FrontEndProcess
+FESMO:FrontEndProcess rdf:type owl:Class ;
+                      rdfs:subClassOf FESMO:Process ;
+                      rdfs:comment "A series of Front-End Operations aimed at creating semiconductor device"@en .
+
+
+###  http://www.semanticweb.org/FESMO#FrontEndWafer
+FESMO:FrontEndWafer rdf:type owl:Class ;
+                    rdfs:subClassOf FESMO:Product .
+
+
+###  http://www.semanticweb.org/FESMO#Function
+FESMO:Function rdf:type owl:Class ;
+               rdfs:comment "The functionality necessary to accomplish the task for which a device is designed. A device can be designed to perform more than one function. Functions can be structured in categories (subclasses) that reflect different points of view, for example, considering the specific application area for which a function can be used (e.g., light, temperature, motion, heat, power, etc.), or the capability that a function can support (e.g., receive, reply, notify, etc.), and so forth."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Gas
+FESMO:Gas rdf:type owl:Class ;
+          rdfs:subClassOf FESMO:Consumable ;
+          owl:disjointWith FESMO:Liquid ,
+                           FESMO:Solid ;
+          rdfs:comment "See general chemical deifnition of gas"@en .
+
+
+###  http://www.semanticweb.org/FESMO#GeographicalLocation
+FESMO:GeographicalLocation rdf:type owl:Class ;
+                           rdfs:subClassOf FESMO:Location ;
+                           rdfs:comment "Location referring to an area occupied by a factor and a product that can be indicated with geographical coordinates"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Group
+FESMO:Group rdf:type owl:Class ;
+            rdfs:comment "This class indicates entities that are aggregations"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Handler
+FESMO:Handler rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#Handling
+FESMO:Handling rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:Function ;
+               rdfs:comment "Handling indicates the function that involves the use of specialized equipment to move packaged parts to and from the test bed during testing."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Instruction
+FESMO:Instruction rdf:type owl:Class ;
+                  rdfs:comment """detailed directives that describe actions to be performed on a tool/ generalise
+
+
+
+, with their applicability and specifics varying by their instantiating accordingly to the type of workshop
+they belong to."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#IonImplantation
+FESMO:IonImplantation rdf:type owl:Class ;
+                      rdfs:subClassOf FESMO:TransformativeProcess ;
+                      rdfs:comment "Ion implantation is the process of introducing impurities into the surface of a wafer by bombarding it with ions. This is typically done to create regions of different electrical conductivity or to modify the properties of the semiconductor material"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Liquid
+FESMO:Liquid rdf:type owl:Class ;
+             rdfs:subClassOf FESMO:Consumable ;
+             owl:disjointWith FESMO:Solid ;
+             rdfs:comment "See general (chemical) definition of Liquid"@en .
+
+
+###  http://www.semanticweb.org/FESMO#LoadBox
+FESMO:LoadBox rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Box .
+
+
+###  http://www.semanticweb.org/FESMO#LoadPort
+FESMO:LoadPort rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#Location
+FESMO:Location rdf:type owl:Class ;
+               rdfs:comment "Entity representing the 2D or 3D space occupied by a factor and a product"@en .
+
+
+###  http://www.semanticweb.org/FESMO#LogicalStep
+FESMO:LogicalStep rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:OperationStep .
+
+
+###  http://www.semanticweb.org/FESMO#LogisticStep
+FESMO:LogisticStep rdf:type owl:Class ;
+                   rdfs:subClassOf FESMO:OperationStep .
+
+
+###  http://www.semanticweb.org/FESMO#Mainframe
+FESMO:Mainframe rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:Equipment ;
+                rdfs:comment "an individual abstract equipment module (large, centralized computing system) that is used to control and manage multiple pieces of equipment within a manufacturing facility."@en .
+
+
+###  http://www.semanticweb.org/FESMO#MaintenanceOrganization
+FESMO:MaintenanceOrganization rdf:type owl:Class ;
+                              rdfs:subClassOf FESMO:Organization .
+
+
+###  http://www.semanticweb.org/FESMO#MaintenanceProcedure
+FESMO:MaintenanceProcedure rdf:type owl:Class ;
+                           rdfs:subClassOf FESMO:Procedure ;
+                           rdfs:comment "Specific type or procedure related to Maintenance"@en .
+
+
+###  http://www.semanticweb.org/FESMO#MaintenanceWorkshop
+FESMO:MaintenanceWorkshop rdf:type owl:Class ;
+                          rdfs:subClassOf FESMO:MaintenanceOrganization .
+
+
+###  http://www.semanticweb.org/FESMO#Mask
+FESMO:Mask rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:Durable ;
+           rdfs:comment """selective barrier to the passage of radiation. For example, a transparent plate
+containing an opaque pattern that is used to transfer that pattern to another substrate
+
+contains the patterns to be reproduced on a substrate; the image may be
+equal to or larger than the final projected image."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#MaskBox
+FESMO:MaskBox rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Box ;
+              rdfs:comment "a protective portable container for a mask."@en .
+
+
+###  http://www.semanticweb.org/FESMO#MaskChuck
+FESMO:MaskChuck rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:Chuck ;
+                rdfs:comment "A mask chuck  is a chuck that has the function of holding the photomask or reticle in place above the wafer during exposure, in the photolithography step of semiconductor manufacturing."@en .
+
+
+###  http://www.semanticweb.org/FESMO#MaskSMIFPod
+FESMO:MaskSMIFPod rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:SMIFPod ;
+                  rdfs:comment "A SMIF Pod used for the masks"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Material
+FESMO:Material rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/FESMO#MaterialLocation
+FESMO:MaterialLocation rdf:type owl:Class ;
+                       rdfs:subClassOf FESMO:Location ;
+                       rdfs:comment "Location specific to an entity of type material"@en .
+
+
+###  http://www.semanticweb.org/FESMO#MaterialProduct
+FESMO:MaterialProduct rdf:type owl:Class ;
+                      rdfs:subClassOf FESMO:Material ;
+                      rdfs:comment """product is the material being processed and produced by the factory (from the
+factory perspective)"""@en .
+
+
+###  http://www.semanticweb.org/FESMO#Measurement
+FESMO:Measurement rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:Function ;
+                  rdfs:comment "Mesurement is a term that indicates a set of operations aimed at determining the value of a quantity."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Metal
+FESMO:Metal rdf:type owl:Class ;
+            rdfs:subClassOf FESMO:TransformativeProcess ;
+            rdfs:comment "Metal refers to the process where conductive layers are deposited onto the surface of the wafer. These conductive layers are essential for several purposes: they provide electrical access to the components through contacts, connect the components to each other via metallic lines and vias, and enable the connection between the Integrated Circuit (IC) and the chip package through bonding pads. Within the Metal workshop, there are three main deposition techniques: Physical Vapor Deposition (PVD) being the primary method, with Chemical Vapor Deposition (CVD) and Electroplating (ECD) as the other two techniques employed."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Metrology
+FESMO:Metrology rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:NonTransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#Module
+FESMO:Module rdf:type owl:Class ;
+             rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#NonTransformativeProcess
+FESMO:NonTransformativeProcess rdf:type owl:Class ;
+                               rdfs:subClassOf FESMO:Process .
+
+
+###  http://www.semanticweb.org/FESMO#NotProductWafer
+FESMO:NotProductWafer rdf:type owl:Class ;
+                      rdfs:subClassOf FESMO:FrontEndWafer .
+
+
+###  http://www.semanticweb.org/FESMO#Operation
+FESMO:Operation rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:Instruction ;
+                owl:disjointWith FESMO:Recipe ,
+                                 FESMO:Route ,
+                                 FESMO:Step ;
+                rdfs:comment """represents a specific task or activity that is performed on a wafer or a lot during the
+manufacturing process. It may involve one or more steps and may be performed on one or more
+pieces of equipment."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#OperationStep
+FESMO:OperationStep rdf:type owl:Class ;
+                    rdfs:subClassOf FESMO:Step ;
+                    rdfs:comment "A specific type of step that is part of an operation."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Organization
+FESMO:Organization rdf:type owl:Class ;
+                   rdfs:subClassOf FESMO:Group ;
+                   rdfs:comment "represents a collection of entities organized together into a community or other social, commercial or political structure. The group has some common purpose or reason for existence which goes beyond the set of entities belonging to it. An organization may itself be able to act as an agent"@en ;
+                   rdfs:label "Organization" .
+
+
+###  http://www.semanticweb.org/FESMO#Oxidation
+FESMO:Oxidation rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:TransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#ParametricTesting
+FESMO:ParametricTesting rdf:type owl:Class ;
+                        rdfs:subClassOf FESMO:NonTransformativeProcess ;
+                        rdfs:comment "Parametric Testing in semiconductor manufacturing is the process of measuring and analyzing the electrical characteristics of wafers and their components (transistors, capacitors, resistors, etc.) to ensure they meet the required specifications. This includes testing parameters such as voltage thresholds, current levels, resistance, capacitance, and timing characteristics. Parametric testing helps in identifying issues related to the manufacturing process and material properties"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Patterning
+FESMO:Patterning rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:ProcessFunction .
+
+
+###  http://www.semanticweb.org/FESMO#Photolitography
+FESMO:Photolitography rdf:type owl:Class ;
+                      rdfs:subClassOf FESMO:TransformativeProcess ;
+                      rdfs:comment "Photolithography is the process of transferring a pattern onto the surface of a wafer using a photomask. This is typically done by exposing the wafer to light through the photomask and then etching away the exposed areas."@en .
+
+
+###  http://www.semanticweb.org/FESMO#PhysicalLocation
+FESMO:PhysicalLocation rdf:type owl:Class ;
+                       rdfs:subClassOf FESMO:Location ;
+                       rdfs:comment "Spatial entity referring to a 3D space occupied by a factor and a product that can be indicated with spatial coordinates"@en .
+
+
+###  http://www.semanticweb.org/FESMO#PhysicalVaporDeposition
+FESMO:PhysicalVaporDeposition rdf:type owl:Class ;
+                              rdfs:subClassOf FESMO:TransformativeProcess .
+
+
+###  http://www.semanticweb.org/FESMO#Pod
+FESMO:Pod rdf:type owl:Class ;
+          rdfs:subClassOf FESMO:Durable ;
+          rdfs:comment "a type of container having a standardized mechanical interface."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Procedure
+FESMO:Procedure rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:Instruction ;
+                rdfs:comment """represents a specific task or activity that is performed on a wafer or lot during
+the manufacturing process. It may involve one or more steps and may be performed on
+one or more pieces of equipment."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#Process
+FESMO:Process rdf:type owl:Class ;
+              rdfs:comment "Indicate the series of Operations aimed at creating semiconductor device."@en ;
+              rdfs:label "Process" .
+
+
+###  http://www.semanticweb.org/FESMO#ProcessFunction
+FESMO:ProcessFunction rdf:type owl:Class ;
+                      rdfs:subClassOf FESMO:Function ;
+                      rdfs:comment "a class that refers to the ability of the equipment to perform specific manufacturing processes or operations required to fabricate semiconductor devices."@en .
+
+
+###  http://www.semanticweb.org/FESMO#ProcessOrganization
+FESMO:ProcessOrganization rdf:type owl:Class ;
+                          rdfs:subClassOf FESMO:Organization ;
+                          rdfs:comment """Represents the structured series of activities or tasks carried out
+within an organization to achieve specific objectives. This might include workflows for
+production, quality control, supply chain management, and other critical business functions."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#ProcessRecipe
+FESMO:ProcessRecipe rdf:type owl:Class ;
+                    rdfs:subClassOf FESMO:Recipe .
+
+
+###  http://www.semanticweb.org/FESMO#ProcessStep
+FESMO:ProcessStep rdf:type owl:Class ;
+                  rdfs:subClassOf FESMO:Step ;
+                  rdfs:comment """the smallest unit of processing activity that can be defined in a process flow. One or
+more process steps are sequenced to define an operation set."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#ProcessWorkshop
+FESMO:ProcessWorkshop rdf:type owl:Class ;
+                      rdfs:subClassOf FESMO:ProcessOrganization ;
+                      rdfs:comment "A specialized group entity with tools, physical agents and machinery dedicated to perform particular manufacturing processes"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Product
+FESMO:Product rdf:type owl:Class ;
+              rdfs:comment """product at the conclusion of the wafer
+fabrication process."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#ProductRoute
+FESMO:ProductRoute rdf:type owl:Class ;
+                   rdfs:subClassOf FESMO:Route ;
+                   rdfs:comment """refers to the planned or intended sequence of steps and processes through
+which a wafer passes to become a finished set of semiconductor devices or integrated
+circuits. This specific route encompasses all the manufacturing stages, such as photolitography,
+etching, doping, deposition, and polishing, among others"""@en .
+
+
+###  http://www.semanticweb.org/FESMO#ProductWafer
+FESMO:ProductWafer rdf:type owl:Class ;
+                   rdfs:subClassOf FESMO:FrontEndWafer .
+
+
+###  http://www.semanticweb.org/FESMO#ProductionOrganization
+FESMO:ProductionOrganization rdf:type owl:Class ;
+                             rdfs:subClassOf FESMO:Organization ;
+                             rdfs:comment """Refers to the structured arrangement and coordination of various
+processes, resources, and personnel involved in the fabrication, assembly, and testing
+of semiconductor devices to ensure efficient and high-quality production."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#ProductionWorkshop
+FESMO:ProductionWorkshop rdf:type owl:Class ;
+                         rdfs:subClassOf FESMO:ProductionOrganization ;
+                         rdfs:comment "A specialized group entity with tools, physical agents and machinery dedicated to conduct the detailed fabrication and assembly processes involved in semiconductor production."@en .
+
+
+###  http://www.semanticweb.org/FESMO#RawWafer
+FESMO:RawWafer rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:FrontEndWafer .
+
+
+###  http://www.semanticweb.org/FESMO#Recipe
+FESMO:Recipe rdf:type owl:Class ;
+             rdfs:subClassOf FESMO:Instruction ;
+             rdfs:comment "A recipe is the pre-planned and reusable portion of the set of instructions, settings, and parameters under control of a processing agent that determines the processing environment seen by the units or material. It is used to describe process steps and is typically contained within a product specification. Processing recipes may be subject to change between runs or processing cycles. This definition is based on SEMI E10, E40, E42, and E79 standards."@en .
+
+
+###  http://www.semanticweb.org/FESMO#RecipeStep
+FESMO:RecipeStep rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:Step ;
+                 rdfs:comment "A specific type of step related to a recipe"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Risk
+FESMO:Risk rdf:type owl:Class ;
+           rdfs:comment """The term risk could be defined as a situation of exposure to danger. Concretely, in an
+industrial environment it is the possibility of the occurrence of a failure, and represents the
+potential failures that may have an impact on products, equipment or production processes."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#RiskETCH
+FESMO:RiskETCH rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#RiskLITHO
+FESMO:RiskLITHO rdf:type owl:Class ;
+                rdfs:subClassOf FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#RiskTT
+FESMO:RiskTT rdf:type owl:Class ;
+             rdfs:subClassOf FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#Robot
+FESMO:Robot rdf:type owl:Class ;
+            rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#Route
+FESMO:Route rdf:type owl:Class ;
+            rdfs:subClassOf FESMO:Instruction ;
+            rdfs:comment """represents a sequence of operations or steps that a wafer or lot must follow in order
+to be processed through the manufacturing line. It includes all the equipment, tools, and
+processes required to fabricate the semiconductor device."""@en .
+
+
+###  http://www.semanticweb.org/FESMO#SMIFPod
+FESMO:SMIFPod rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Pod ;
+              rdfs:comment """pod for controlling the transport environment of wafer cassettes for sizes up to
+200 mm as specified by SEMI E19.
+Standard Mechanical Interface Pod"""@en .
+
+
+###  http://www.semanticweb.org/FESMO#SemiconductorManufacturingSite
+FESMO:SemiconductorManufacturingSite rdf:type owl:Class ;
+                                     rdfs:subClassOf FESMO:Site ;
+                                     rdfs:comment "Physical Location at which an organization specified in semiconductor manufacturing is located"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Sensor
+FESMO:Sensor rdf:type owl:Class ;
+             rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#Site
+FESMO:Site rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:PhysicalLocation ;
+           rdfs:comment "Physical Location at which an organization is located"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Solid
+FESMO:Solid rdf:type owl:Class ;
+            rdfs:subClassOf FESMO:Consumable ;
+            rdfs:comment "See general chemical definition of Solid"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Sorter
+FESMO:Sorter rdf:type owl:Class ;
+             rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#Step
+FESMO:Step rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:Instruction ;
+           rdfs:comment "The last unit of measure for an action in a route,represents a specific action or process that is performed on a wafer or lot during an operation. It may involve a single tool or piece of equipment and may be repeated multiple times during the manufacturing process"@en .
+
+
+###  http://www.semanticweb.org/FESMO#Stocker
+FESMO:Stocker rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#TT
+FESMO:TT rdf:type owl:Class ;
+         rdfs:subClassOf FESMO:ProcessFunction .
+
+
+###  http://www.semanticweb.org/FESMO#TransformativeProcess
+FESMO:TransformativeProcess rdf:type owl:Class ;
+                            rdfs:subClassOf FESMO:Process .
+
+
+###  http://www.semanticweb.org/FESMO#Tube
+FESMO:Tube rdf:type owl:Class ;
+           rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#Vehicle
+FESMO:Vehicle rdf:type owl:Class ;
+              rdfs:subClassOf FESMO:Equipment .
+
+
+###  http://www.semanticweb.org/FESMO#WaferChuck
+FESMO:WaferChuck rdf:type owl:Class ;
+                 rdfs:subClassOf FESMO:Chuck ;
+                 rdfs:comment "A wafer chuck is a device used to secure and hold a semiconductor wafer in place during the fabrication process."@en .
+
+
+###  http://www.semanticweb.org/FESMO#Wet
+FESMO:Wet rdf:type owl:Class ;
+          rdfs:subClassOf FESMO:Etching ;
+          rdfs:comment "This name stems from the use of liquid chemistries or water to perform processes of cleaning, wet stripping qnd wet etching. Those processes are critical in both the Front-End of Line (FEOL), which pertains to the fabrication of the active devices on the integrated circuit, and the Back-End of Line (BEOL), which involves creating the interconnections between devices."@en .
+
+
+###  http://www.semanticweb.org/FESMO#WorkArea
+FESMO:WorkArea rdf:type owl:Class ;
+               rdfs:subClassOf FESMO:BusinessArea ;
+               rdfs:comment "type bus area in clean room" .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/FESMO#AMHS
+FESMO:AMHS rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#CMP
+FESMO:CMP rdf:type owl:NamedIndividual ,
+                   FESMO:CMP .
+
+
+###  http://www.semanticweb.org/FESMO#CVD
+FESMO:CVD rdf:type owl:NamedIndividual ,
+                   FESMO:ChemicalVaporDeposition .
+
+
+###  http://www.semanticweb.org/FESMO#ChamberEquipment
+FESMO:ChamberEquipment rdf:type owl:NamedIndividual ,
+                                FESMO:Chamber .
+
+
+###  http://www.semanticweb.org/FESMO#ChuckEquipment
+FESMO:ChuckEquipment rdf:type owl:NamedIndividual ,
+                              FESMO:Chuck .
+
+
+###  http://www.semanticweb.org/FESMO#ChuckMEqpt
+FESMO:ChuckMEqpt rdf:type owl:NamedIndividual ,
+                          FESMO:MaskChuck .
+
+
+###  http://www.semanticweb.org/FESMO#ChuckWEqpt
+FESMO:ChuckWEqpt rdf:type owl:NamedIndividual ,
+                          FESMO:WaferChuck .
+
+
+###  http://www.semanticweb.org/FESMO#Contamination
+FESMO:Contamination rdf:type owl:NamedIndividual ,
+                             FESMO:RiskTT ;
+                    FESMO:isIncreasedBy FESMO:RecipeA ;
+                    FESMO:isReducedBy FESMO:Measurement1 ;
+                    FESMO:isRiskTo FESMO:EquipmentTT .
+
+
+###  http://www.semanticweb.org/FESMO#Crolles
+FESMO:Crolles rdf:type owl:NamedIndividual ,
+                       FESMO:GeographicalLocation ;
+              FESMO:isLocatedIn FESMO:France .
+
+
+###  http://www.semanticweb.org/FESMO#Crolles200
+FESMO:Crolles200 rdf:type owl:NamedIndividual ,
+                          FESMO:Fab ;
+                 FESMO:isLocatedIn FESMO:Crolles .
+
+
+###  http://www.semanticweb.org/FESMO#Crolles300
+FESMO:Crolles300 rdf:type owl:NamedIndividual ,
+                          FESMO:Fab ;
+                 FESMO:isLocatedIn FESMO:Crolles .
+
+
+###  http://www.semanticweb.org/FESMO#DIEL
+FESMO:DIEL rdf:type owl:NamedIndividual ,
+                    FESMO:Dielectric .
+
+
+###  http://www.semanticweb.org/FESMO#DIEL_Workshop
+FESMO:DIEL_Workshop rdf:type owl:NamedIndividual ,
+                             FESMO:ProcessWorkshop .
+
+
+###  http://www.semanticweb.org/FESMO#Defectivity
+FESMO:Defectivity rdf:type owl:NamedIndividual ,
+                           FESMO:Defectivity .
+
+
+###  http://www.semanticweb.org/FESMO#Deposition_Operation
+FESMO:Deposition_Operation rdf:type owl:NamedIndividual ,
+                                    FESMO:Operation .
+
+
+###  http://www.semanticweb.org/FESMO#Diffusion
+FESMO:Diffusion rdf:type owl:NamedIndividual ,
+                         FESMO:Diffusion .
+
+
+###  http://www.semanticweb.org/FESMO#DummyFab
+FESMO:DummyFab rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#ETCH
+FESMO:ETCH rdf:type owl:NamedIndividual ,
+                    FESMO:Etching .
+
+
+###  http://www.semanticweb.org/FESMO#ETCH_Workshop
+FESMO:ETCH_Workshop rdf:type owl:NamedIndividual ,
+                             FESMO:ProcessWorkshop ;
+                    FESMO:Operates FESMO:EquipmentETCH .
+
+
+###  http://www.semanticweb.org/FESMO#EWS
+FESMO:EWS rdf:type owl:NamedIndividual ,
+                   FESMO:ElectricalWaferSorting .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentA
+FESMO:EquipmentA rdf:type owl:NamedIndividual ,
+                          FESMO:Equipment ;
+                 FESMO:isLocatedIn FESMO:Crolles ;
+                 FESMO:isOperatedBy FESMO:ETCH_Workshop .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentB
+FESMO:EquipmentB rdf:type owl:NamedIndividual ,
+                          FESMO:Equipment ;
+                 FESMO:isOperatedBy FESMO:ETCH_Workshop .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentC
+FESMO:EquipmentC rdf:type owl:NamedIndividual ,
+                          FESMO:Equipment ;
+                 FESMO:isOperatedBy FESMO:METRO_Workshop .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentD
+FESMO:EquipmentD rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentE
+FESMO:EquipmentE rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentETCH
+FESMO:EquipmentETCH rdf:type owl:NamedIndividual ,
+                             FESMO:Equipment ;
+                    FESMO:isLocatedIn FESMO:Crolles ;
+                    rdfs:comment "Istance of an Equipment operated by ETCH workshop" .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentEtch
+FESMO:EquipmentEtch rdf:type owl:NamedIndividual ;
+                    FESMO:isChildEquipmentOf FESMO:EquipmentEtchPar ;
+                    FESMO:hasID "AAAAX12" .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentEtchPar
+FESMO:EquipmentEtchPar rdf:type owl:NamedIndividual ;
+                       FESMO:isParentEquipmentOf FESMO:EquipmentEtch ;
+                       FESMO:hasID "AL94-01" .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentLITHO
+FESMO:EquipmentLITHO rdf:type owl:NamedIndividual ,
+                              FESMO:Equipment ;
+                     FESMO:isLocatedIn FESMO:Crolles ;
+                     rdfs:comment "Istance of an Equipment operated by Lithography workshop" .
+
+
+###  http://www.semanticweb.org/FESMO#EquipmentTT
+FESMO:EquipmentTT rdf:type owl:NamedIndividual ,
+                           FESMO:Equipment ;
+                  FESMO:isLocatedIn FESMO:Crolles ;
+                  rdfs:comment "Istance of an Equipment operated by Thermal Treatment workshop" .
+
+
+###  http://www.semanticweb.org/FESMO#Etching
+FESMO:Etching rdf:type owl:NamedIndividual ,
+                       FESMO:Etching .
+
+
+###  http://www.semanticweb.org/FESMO#Europe
+FESMO:Europe rdf:type owl:NamedIndividual ,
+                      FESMO:GeographicalLocation ;
+             FESMO:isLocationOf FESMO:Italy .
+
+
+###  http://www.semanticweb.org/FESMO#FOUR
+FESMO:FOUR rdf:type owl:NamedIndividual ,
+                    FESMO:Mainframe .
+
+
+###  http://www.semanticweb.org/FESMO#FilmDeposition
+FESMO:FilmDeposition rdf:type owl:NamedIndividual ,
+                              FESMO:FilmDeposition .
+
+
+###  http://www.semanticweb.org/FESMO#Fire_Hazard
+FESMO:Fire_Hazard rdf:type owl:NamedIndividual ,
+                           FESMO:Risk .
+
+
+###  http://www.semanticweb.org/FESMO#France
+FESMO:France rdf:type owl:NamedIndividual ,
+                      FESMO:GeographicalLocation ;
+             FESMO:isLocatedIn FESMO:Europe .
+
+
+###  http://www.semanticweb.org/FESMO#Handler
+FESMO:Handler rdf:type owl:NamedIndividual ,
+                       FESMO:Handler .
+
+
+###  http://www.semanticweb.org/FESMO#Ion_Implantation
+FESMO:Ion_Implantation rdf:type owl:NamedIndividual ,
+                                FESMO:IonImplantation .
+
+
+###  http://www.semanticweb.org/FESMO#Italy
+FESMO:Italy rdf:type owl:NamedIndividual ,
+                     FESMO:GeographicalLocation .
+
+
+###  http://www.semanticweb.org/FESMO#LoadPort
+FESMO:LoadPort rdf:type owl:NamedIndividual ,
+                        FESMO:LoadPort .
+
+
+###  http://www.semanticweb.org/FESMO#LotProduct
+FESMO:LotProduct rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#MES
+FESMO:MES rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#METAL
+FESMO:METAL rdf:type owl:NamedIndividual ,
+                     FESMO:Metal .
+
+
+###  http://www.semanticweb.org/FESMO#METRO_Workshop
+FESMO:METRO_Workshop rdf:type owl:NamedIndividual ,
+                              FESMO:ProcessWorkshop .
+
+
+###  http://www.semanticweb.org/FESMO#Maintenance_Workshop
+FESMO:Maintenance_Workshop rdf:type owl:NamedIndividual ;
+                           FESMO:performsMaintenanceOn FESMO:EquipmentA .
+
+
+###  http://www.semanticweb.org/FESMO#Material
+FESMO:Material rdf:type owl:NamedIndividual ,
+                        FESMO:Material .
+
+
+###  http://www.semanticweb.org/FESMO#Meas_Thickness_Step
+FESMO:Meas_Thickness_Step rdf:type owl:NamedIndividual ,
+                                   FESMO:Step ;
+                          sequence:directlyFollows FESMO:Oxidation_Step ;
+                          FESMO:TakesPlaceIn FESMO:Crolles300 .
+
+
+###  http://www.semanticweb.org/FESMO#Measurement1
+FESMO:Measurement1 rdf:type owl:NamedIndividual ,
+                            FESMO:Measurement ;
+                   sequence:follows FESMO:Operation140 .
+
+
+###  http://www.semanticweb.org/FESMO#Metrology
+FESMO:Metrology rdf:type owl:NamedIndividual ,
+                         FESMO:Metrology .
+
+
+###  http://www.semanticweb.org/FESMO#Module
+FESMO:Module rdf:type owl:NamedIndividual ,
+                      FESMO:Module ;
+             FESMO:PerformsTaskOn FESMO:Material .
+
+
+###  http://www.semanticweb.org/FESMO#NotProcessedWafer
+FESMO:NotProcessedWafer rdf:type owl:NamedIndividual ,
+                                 FESMO:NotProductWafer .
+
+
+###  http://www.semanticweb.org/FESMO#Operation110
+FESMO:Operation110 rdf:type owl:NamedIndividual ,
+                            FESMO:Operation ;
+                   sequence:precedes FESMO:Operation120 ;
+                   FESMO:involves FESMO:EquipmentTT .
+
+
+###  http://www.semanticweb.org/FESMO#Operation120
+FESMO:Operation120 rdf:type owl:NamedIndividual ,
+                            FESMO:Operation ;
+                   sequence:precedes FESMO:Operation130 ;
+                   FESMO:involves FESMO:EquipmentLITHO .
+
+
+###  http://www.semanticweb.org/FESMO#Operation130
+FESMO:Operation130 rdf:type owl:NamedIndividual ;
+                   FESMO:involves FESMO:EquipmentETCH .
+
+
+###  http://www.semanticweb.org/FESMO#Operation140
+FESMO:Operation140 rdf:type owl:NamedIndividual ,
+                            FESMO:Operation ;
+                   sequence:follows FESMO:Operation130 ;
+                   FESMO:involves FESMO:EquipmentTT .
+
+
+###  http://www.semanticweb.org/FESMO#Oxidation
+FESMO:Oxidation rdf:type owl:NamedIndividual ,
+                         FESMO:Oxidation .
+
+
+###  http://www.semanticweb.org/FESMO#Oxidation_Operation
+FESMO:Oxidation_Operation rdf:type owl:NamedIndividual ,
+                                   FESMO:Operation .
+
+
+###  http://www.semanticweb.org/FESMO#Oxidation_Step
+FESMO:Oxidation_Step rdf:type owl:NamedIndividual ,
+                              FESMO:Step .
+
+
+###  http://www.semanticweb.org/FESMO#PVD
+FESMO:PVD rdf:type owl:NamedIndividual ,
+                   FESMO:PhysicalVaporDeposition .
+
+
+###  http://www.semanticweb.org/FESMO#Parametric_Testing
+FESMO:Parametric_Testing rdf:type owl:NamedIndividual ,
+                                  FESMO:ParametricTesting .
+
+
+###  http://www.semanticweb.org/FESMO#Photolithography
+FESMO:Photolithography rdf:type owl:NamedIndividual ,
+                                FESMO:Photolitography .
+
+
+###  http://www.semanticweb.org/FESMO#Photolithography_Workshop
+FESMO:Photolithography_Workshop rdf:type owl:NamedIndividual ;
+                                FESMO:Operates FESMO:EquipmentLITHO .
+
+
+###  http://www.semanticweb.org/FESMO#PhotoresistDefect
+FESMO:PhotoresistDefect rdf:type owl:NamedIndividual ,
+                                 FESMO:RiskLITHO ;
+                        FESMO:isReducedBy FESMO:Measurement1 ;
+                        FESMO:isRiskTo FESMO:EquipmentLITHO .
+
+
+###  http://www.semanticweb.org/FESMO#RecipeA
+FESMO:RecipeA rdf:type owl:NamedIndividual ,
+                       FESMO:Recipe ;
+              FESMO:definesEquipment FESMO:EquipmentTT ;
+              FESMO:isRequiredFor FESMO:Operation110 .
+
+
+###  http://www.semanticweb.org/FESMO#RecipeB
+FESMO:RecipeB rdf:type owl:NamedIndividual ,
+                       FESMO:Recipe ;
+              FESMO:definesEquipment FESMO:EquipmentLITHO ;
+              FESMO:isRequiredFor FESMO:Operation120 .
+
+
+###  http://www.semanticweb.org/FESMO#RecipeC
+FESMO:RecipeC rdf:type owl:NamedIndividual ,
+                       FESMO:Recipe ;
+              FESMO:definesEquipment FESMO:EquipmentETCH ;
+              FESMO:isRequiredFor FESMO:Operation130 .
+
+
+###  http://www.semanticweb.org/FESMO#RecipeD
+FESMO:RecipeD rdf:type owl:NamedIndividual ,
+                       FESMO:Recipe ;
+              FESMO:definesEquipment FESMO:EquipmentTT .
+
+
+###  http://www.semanticweb.org/FESMO#RecipeE
+FESMO:RecipeE rdf:type owl:NamedIndividual ,
+                       FESMO:Recipe ;
+              FESMO:definesEquipment FESMO:EquipmentETCH .
+
+
+###  http://www.semanticweb.org/FESMO#ResidueFormation
+FESMO:ResidueFormation rdf:type owl:NamedIndividual ,
+                                FESMO:RiskETCH ;
+                       FESMO:isIncreasedBy FESMO:RecipeE ;
+                       FESMO:isReducedBy FESMO:Measurement1 ;
+                       FESMO:isRiskTo FESMO:EquipmentEtch .
+
+
+###  http://www.semanticweb.org/FESMO#Robot
+FESMO:Robot rdf:type owl:NamedIndividual ,
+                     FESMO:Robot .
+
+
+###  http://www.semanticweb.org/FESMO#Route1
+FESMO:Route1 rdf:type owl:NamedIndividual ,
+                      FESMO:Route ;
+             FESMO:isMadeOf FESMO:Operation110 ,
+                            FESMO:Operation120 ,
+                            FESMO:Operation130 ,
+                            FESMO:Operation140 .
+
+
+###  http://www.semanticweb.org/FESMO#Sensor
+FESMO:Sensor rdf:type owl:NamedIndividual ,
+                      FESMO:Sensor .
+
+
+###  http://www.semanticweb.org/FESMO#Sorter
+FESMO:Sorter rdf:type owl:NamedIndividual ,
+                      FESMO:Sorter .
+
+
+###  http://www.semanticweb.org/FESMO#Stocker
+FESMO:Stocker rdf:type owl:NamedIndividual ,
+                       FESMO:Stocker .
+
+
+###  http://www.semanticweb.org/FESMO#TT
+FESMO:TT rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#TT_Workshop
+FESMO:TT_Workshop rdf:type owl:NamedIndividual ;
+                  FESMO:Operates FESMO:EquipmentTT .
+
+
+###  http://www.semanticweb.org/FESMO#ThermalProcessing
+FESMO:ThermalProcessing rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/FESMO#Tube
+FESMO:Tube rdf:type owl:NamedIndividual ,
+                    FESMO:Tube ;
+           FESMO:isInvolvedIn FESMO:ThermalProcessing .
+
+
+###  http://www.semanticweb.org/FESMO#Vehicle
+FESMO:Vehicle rdf:type owl:NamedIndividual ,
+                       FESMO:Vehicle ;
+              FESMO:isInvolvedIn FESMO:AMHS .
+
+
+###  http://www.semanticweb.org/FESMO#WET
+FESMO:WET rdf:type owl:NamedIndividual ,
+                   FESMO:Wet .
+
+
+###  http://www.semanticweb.org/FESMO#WET_Workshop
+FESMO:WET_Workshop rdf:type owl:NamedIndividual ,
+                            FESMO:ProcessWorkshop .
+
+
+###  http://www.semanticweb.org/FESMO#WaferDummy
+FESMO:WaferDummy rdf:type owl:NamedIndividual ,
+                          FESMO:DummyWafer ;
+                 FESMO:isProcessedBy FESMO:EquipmentETCH ,
+                                     FESMO:EquipmentLITHO ,
+                                     FESMO:EquipmentTT .
+
+
+###  http://www.semanticweb.org/FESMO#WaferProd
+FESMO:WaferProd rdf:type owl:NamedIndividual ,
+                         FESMO:ProductWafer ;
+                FESMO:isHeldBy FESMO:ChuckWEqpt ;
+                FESMO:isManufacturedUsing FESMO:Route1 .
+
+
+###  http://www.semanticweb.org/FESMO#WetClean_Step
+FESMO:WetClean_Step rdf:type owl:NamedIndividual ,
+                             FESMO:Step ;
+                    sequence:directlyPrecedes FESMO:Oxidation_Step .
+
+
+###  http://www.semanticweb.org/FESMO#Wet_Nit_Step
+FESMO:Wet_Nit_Step rdf:type owl:NamedIndividual ,
+                            FESMO:ProcessStep .
+
+
+###  http://www.semanticweb.org/FESMO#equipment1
+FESMO:equipment1 rdf:type owl:NamedIndividual ,
+                          FESMO:Equipment ;
+                 FESMO:isLocatedIn FESMO:Crolles300 ;
+                 FESMO:hasID "A029RN" .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+FESMO:CMP rdfs:comment "CMP is a process used to polish the surface of the wafer to a high degree of smoothness using a combination of chemical and mechanical forces."@en .
+
+
+FESMO:Defectivity rdfs:comment "Defectivity is the process referring to measurements of the frequency and severity of defects on semiconductor wafers, with the primary objectives to detect, analyze, and reduce these defects. This ensures the prevention of quality deviations, enhances yield rates, and supports the development of new technologies. Defect detection is conducted using optical methods and electron microscopy, while analysis involves reviewing, classifying, and determining the origins of the detected defects to facilitate their reduction and control in the production process."@en .
+
+
+FESMO:Diffusion rdfs:comment "Diffusion is the process of introducing impurities into the surface of a wafer to create regions of different electrical conductivity. This is typically done by exposing the wafer to a gas or vapor containing the desired impurities."@en .
+
+
+FESMO:Etching rdfs:comment "Etching is the process of selectively removing material from the surface of a wafer to create patterns or structures. This is typically done using a chemical or physical process."@en .
+
+
+FESMO:FilmDeposition rdfs:comment "Film deposition is the process of depositing a thin layer of material onto the surface of a wafer to create a specific film or layer. This is typically done using a chemical or physical vapor deposition process."@en .
+
+
+FESMO:Handler rdfs:comment "Equipment class generally consisting of integrated mechanisms and controls for the purpose of manipulating packaged devices, trays, and tubes during the manufacturing process"@en .
+
+
+FESMO:LoadPort rdfs:comment "The Physical interface provided for the exchange of carriers with an agent of the factory (operator or automated material handling system)"@en .
+
+
+FESMO:Material rdfs:comment """Material refers to a piece or pieces of substrate, one or more substrates, a lot, a batch, or a run used in the manufacturing process. It can also be used interchangeably with \"transfer object\" to refer to discrete objects that may be transferred to and from equipment, such as product, carriers, reusable fixtures, etc.
+In general, material can be classified as consumable, durable, or product, and may include various types of things used during manufacturing, such as wafers, carriers, chemicals, and more. It is the basic unit of process, and for the purposes of some standards, it is defined as a set of one or more substrates. Material is an abstraction of the various types of things used during manufacturing and requires some management."""@en .
+
+
+FESMO:Mesurement rdfs:comment "Measurement is a term that indicates a set of operations aimed at determining the value of a quantity. It involves using specialized equipment to inspect and test a product, and to report results. The purpose of measurement is to provide feedback on the manufacturing process and to ensure that the product meets the required specifications." .
+
+
+FESMO:Metrology rdfs:comment "Metrology in the context of semiconductor manufacturing is the science of measurement. It involves the use of sophisticated tools and techniques to measure and characterize the physical dimensions, shapes, and patterns on a wafer. Accurate metrology is essential for ensuring that the semiconductor devices are built to the correct specifications and for controlling the manufacturing process."@en .
+
+
+FESMO:Module rdfs:comment "major component of equipment that contains at least one material location and performs some task on material. Equipment modules may be aggregates of equipment subsystems, I/O devices, and other modules."@en .
+
+
+FESMO:Oxidation rdfs:comment "Oxidation is the process of creating a thin layer of oxide on the surface of a wafer. This is typically done by exposing the wafer to oxygen or steam at high temperatures."@en .
+
+
+FESMO:Robot rdfs:comment "An automatically controlled, reprogrammable manipulator including the moving parts,their actuators, drivers and controllers."@en .
+
+
+FESMO:Sensor rdfs:comment "I/O device that responds to a change in its physical envoronment and produces a proportional response , typically electrical"@en .
+
+
+FESMO:Sorter rdfs:comment "specialized piece of equipment used to sort and classify semiconductor wafers based on various criteria such as size, shape, and defect density. Sorters are typically used in high-volume production environments where large numbers of wafers need to be processed quickly and efficiently."@en .
+
+
+FESMO:Stocker rdfs:comment """individual stocker is considered a single piece of equipment with distributed components and distributed control.
+(an AMHS storage device.)"""@en .
+
+
+FESMO:TT rdfs:label "Termal Treatement" .
+
+
+FESMO:Tube rdfs:comment "equipment known as a process tube or furnace tube. This is a key component in the thermal processing of semiconductor wafers."@en .
+
+
+FESMO:Vehicle rdfs:comment "a transport unit which transfers a transfer unit between transfer locations. Vehicle picks up a carrier from transfer location in unloading action, and place a carrier to transfer location in loading action."@en .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( FESMO:Chamber
+                FESMO:Chuck
+                FESMO:Handler
+                FESMO:LoadPort
+                FESMO:Mainframe
+                FESMO:Module
+                FESMO:Robot
+                FESMO:Sensor
+                FESMO:Sorter
+                FESMO:Stocker
+                FESMO:Tube
+                FESMO:Vehicle
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( FESMO:Consumable
+                FESMO:Durable
+                FESMO:MaterialProduct
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
